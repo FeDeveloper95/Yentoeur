@@ -1,0 +1,167 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    /* Palette Material You - Tema Chiaro */
+    --background-color: #F8F9FA; /* Sfondo molto chiaro */
+    --surface-color: #FFFFFF; /* Superfici chiare, come la card */
+    --on-surface-color: #1F2A38; /* Testo scuro */
+    --on-surface-variant: #6C7A89; /* Testo secondario/etichette */
+    --outline-color: #E2E8F0; /* Bordo sottile */
+    --primary-color: #2D6BFF; /* Blu principale */
+    --on-primary-color: #FFFFFF; /* Testo sul blu */
+    --shadow-color: rgba(0, 0, 0, 0.08); /* Ombra leggera */
+    --focus-color: #2D6BFF; /* Bordo focus blu */
+}
+
+:root.dark {
+    /* Palette Material You - Tema Scuro */
+    --background-color: #121212; /* Sfondo scuro */
+    --surface-color: #1E1E1E; /* Superfici leggermente più chiare dello sfondo */
+    --on-surface-color: #E0E0E0; /* Testo chiaro */
+    --on-surface-variant: #9E9E9E; /* Testo secondario chiaro */
+    --outline-color: #3C3C3C; /* Bordo scuro */
+    --primary-color: #6EA8FF; /* Blu acceso per il tema scuro */
+    --on-primary-color: #121212; /* Testo scuro sul blu acceso */
+    --shadow-color: rgba(0, 0, 0, 0.5); /* Ombra più marcata */
+    --focus-color: #6EA8FF; /* Bordo focus blu acceso */
+}
+
+body {
+    font-family: 'Roboto Flex', sans-serif;
+    background-color: var(--background-color);
+    color: var(--on-surface-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.converter-container {
+    width: 100%;
+    max-width: 26rem; 
+    padding: 0 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.converter-card {
+    background-color: var(--surface-color);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 0.5rem 1rem var(--shadow-color);
+    text-align: center;
+    max-width: 22rem; 
+    width: 100%;
+    margin: auto;
+    transition: box-shadow 0.3s, background-color 0.3s;
+}
+
+h2 {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--on-surface-color);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+label {
+    position: absolute;
+    top: -0.625rem;
+    left: 1rem;
+    background-color: var(--surface-color);
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    color: var(--on-surface-variant);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 1rem;
+    border: 0.125rem solid var(--outline-color);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    color: var(--on-surface-color);
+    background-color: var(--surface-color);
+    transition: border-color 0.3s, background-color 0.3s;
+    outline: none;
+}
+
+input[type="number"]:focus {
+    border-color: var(--focus-color);
+}
+
+#convert-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.15);
+}
+
+#convert-button:hover {
+    background-color: color-mix(in srgb, var(--primary-color) 90%, black);
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.25);
+}
+
+p#message {
+    margin-top: 1.5rem;
+    color: var(--on-surface-variant);
+    font-size: 1rem;
+    min-height: 1.25rem;
+}
+
+.theme-switcher {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+#theme-toggle {
+    background-color: var(--surface-color);
+    border: none;
+    cursor: pointer;
+    color: var(--on-surface-color);
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s, color 0.3s;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.1);
+}
+
+#theme-toggle:hover {
+    background-color: var(--outline-color);
+}
+
+#theme-toggle svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    color: var(--on-surface-variant);
+    font-size: 0.875rem;
+    position: relative;
+    bottom: 0;
+}
