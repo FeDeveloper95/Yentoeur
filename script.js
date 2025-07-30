@@ -1,6 +1,9 @@
-// Tassi di cambio aggiornati
-let euroToYenRate = 170.86;
-let yenToEuroRate = 1 / euroToYenRate;
+// La tua chiave API.
+const apiKey = "33bcfa020d7613fdbc5d0e55";
+const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/EUR`;
+
+let euroToYenRate = 0;
+let yenToEuroRate = 0;
 
 const euroInput = document.getElementById('euro');
 const yenInput = document.getElementById('yen');
@@ -8,7 +11,28 @@ const convertButton = document.getElementById('convert-button');
 const message = document.getElementById('message');
 const themeToggle = document.getElementById('theme-toggle');
 
-// Funzione di conversione
+async function fetchExchangeRates() {
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        
+        if (data.result === "success") {
+            euroToYenRate = data.conversion_rates.JPY;
+            yenToEuroRate = 1 / euroToYenRate;
+            message.textContent = "Tassi di cambio aggiornati in tempo reale!";
+        } else {
+            message.textContent = "Errore durante l'aggiornamento dei tassi di cambio. Verranno usati i tassi predefiniti.";
+            euroToYenRate = 170.86;
+            yenToEuroRate = 1 / 170.86;
+        }
+    } catch (error) {
+        console.error("Errore di rete:", error);
+        message.textContent = "Errore di connessione. Verranno usati i tassi predefiniti.";
+        euroToYenRate = 170.86;
+        yenToEuroRate = 1 / 170.86;
+    }
+}
+
 function convertCurrency() {
     const euroValue = parseFloat(euroInput.value);
     const yenValue = parseFloat(yenInput.value);
@@ -32,7 +56,6 @@ function convertCurrency() {
     }
 }
 
-// Funzione per cambiare tema
 function toggleTheme() {
     document.documentElement.classList.toggle('dark');
     const isDark = document.documentElement.classList.contains('dark');
@@ -40,7 +63,6 @@ function toggleTheme() {
     updateThemeIcon(isDark);
 }
 
-// Aggiorna l'icona del tema in base al tema corrente
 function updateThemeIcon(isDark) {
     const path = isDark 
         ? "M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12 20.25a8.25 8.25 0 01-9.73-8.835 8.25 8.25 0 0015.65 0 8.25 8.25 0 01-5.92 8.835z"
@@ -48,7 +70,6 @@ function updateThemeIcon(isDark) {
     themeToggle.querySelector('path').setAttribute('d', path);
 }
 
-// Imposta il tema al caricamento della pagina
 function setInitialTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark' || (savedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -60,7 +81,6 @@ function setInitialTheme() {
     }
 }
 
-// Registra il service worker per la PWA
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js').then(registration => {
@@ -71,7 +91,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-// Listeners per gli eventi
 convertButton.addEventListener('click', convertCurrency);
 themeToggle.addEventListener('click', toggleTheme);
 euroInput.addEventListener('input', () => {
@@ -82,3 +101,6 @@ yenInput.addEventListener('input', () => {
 });
 
 setInitialTheme();
+fetchExchangeRates();
+
+setInterval(fetchExchangeRates, 24 * 60 * 60 * 1000);
